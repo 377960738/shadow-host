@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: shadow-host
-    image: shadow-host:latest
+    image: ${REGISTRY_IMAGE:-shadow-host}:${TAG:-latest}
     privileged: true
 
     volumes:

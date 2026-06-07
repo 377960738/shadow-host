@@ -11,10 +11,14 @@ if [ -d /data ] && [ ! -d /data/.vscode-server ]; then
 fi
 
 # 配置 SSH 服务
-sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
-sed -i 's/^AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
-sed -i 's/^GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
+if [ ! -d /run/sshd ]; then
+  mkdir -p /run/sshd
+
+  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+  sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+  sed -i 's/^AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
+  sed -i 's/^GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
+fi
 
 # 启动 SSH 服务
 /usr/sbin/sshd -D
