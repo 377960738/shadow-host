@@ -4,7 +4,7 @@ FROM alpine:latest
 RUN apk add --no-cache \
 	tini \
 	docker.io \
-	docker-compose \
+	docker-cli-compose \
 	git \
 	curl \
 	wget \
