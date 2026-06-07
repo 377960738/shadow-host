@@ -1,17 +1,17 @@
-FROM alpine:latest
+FROM debian:bookworm
 
 # 安装基础工具
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y --no-install-recommends \
 	tini \
 	docker.io \
-	docker-cli-compose \
+	docker-compose \
 	git \
 	curl \
 	wget \
 	vim \
 	openssh-server \
 	ca-certificates \
-	&& rm -rf /var/cache/apk/*
+	&& rm -rf /var/lib/apt/lists/*
 
 # 暴露端口
 EXPOSE 22
