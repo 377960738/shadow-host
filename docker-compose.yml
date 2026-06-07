@@ -1,0 +1,33 @@
+services:
+  shadow-host:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shadow-host
+    image: shadow-host:latest
+    privileged: true
+
+    volumes:
+      # Docker socket 挂载（与宿主机 Docker daemon 通信）
+      - ${DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock
+      # 数据目录
+      - data:/data
+
+    # 端口映射
+    ports:
+      - "${SSH_PORT:-2222}:22"
+
+    # 网络配置
+    networks:
+      - remote-dev-network
+
+    # 重启策略
+    restart: unless-stopped
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  remote-dev-network:
+    driver: bridge
